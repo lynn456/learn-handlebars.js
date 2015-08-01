@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>handlebars</title>
+  <style>
+    table {
+      text-align: center;
+      margin: 0 auto;
+      width: 600px;
+    }
+    table, td {
+      border: solid 1px black;
+    }
+    .bg-blue{
+      background: blue;
+    }
+    .bg-green{
+      background: green;
+    }
+    .text-white{
+      color: #fff;
+    }
+  </style>
+  <script src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
+</head>
+<body>
+  <main>
+    <h1>Handlebars</h1>
+    <table>
+      <thead>
+        <tr>
+          <th>No.</th>
+          <th>圖像</th>
+          <th>姓名</th>
+          <th>政黨</th>
+          <th>黨團</th>
+        </tr>
+      </thead>
+      <tbody id="main-data">
+        <!-- 把資料塞入這裡 -->
+      </tbody>
+    </table>
+  </main>
+  <script>
+  'use strict';
+
+  $(function(){
+
+    $.getJSON('https://raw.githubusercontent.com/g0v/ly-tel/master/web/data/mly-8.json', function(data){
+      $.each(data, function(index, value){
+
+        var party = value.party;
+        if( party=='KMT' ){
+          party = '<span style="color:blue;">' +party+ '</span>';
+        }else if( party=='DPP' ){
+          party = '<span style="color:green;">' +party+ '</span>';
+        }
+
+        var caucus = value.caucus;
+        var ccss   = '';
+        if( caucus=='KMT' ){
+          ccss = 'text-white bg-blue';
+        }else if( caucus=='DPP' ){
+          ccss = 'text-white bg-green';
+        }
+
+        var raw = '';
+        raw += '<tr>';
+        raw += '<td>' +parseInt(index+1)+ '</td>';
+        raw += '<td><img src="' +value.avatar+ '"></td>';
+        raw += '<td>' +value.name+ '</td>';
+        raw += '<td>' +party+ '</td>';
+        raw += '<td class="' +ccss+ '">' +caucus+ '</td>';
+        raw += '</tr>';
+        $('#main-data').append(raw);
+      });
+    });
+  });
+  </script>
+</body>
+</html>
