@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>handlebars</title>
+  <style>
+    table {
+      text-align: center;
+      margin: 0 auto;
+      width: 600px;
+    }
+    table, td {
+      border: solid 1px black;
+    }
+    .bg-blue{
+      background: blue;
+    }
+    .bg-green{
+      background: green;
+    }
+    .text-white{
+      color: #fff;
+    }
+  </style>
+  <script src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/3.0.3/handlebars.min.js"></script>
+  
+</head>
+<body>
+  <main>
+    <h1>Handlebars-if else</h1>
+    <section>
+      handlebars 的 if-else 只能判斷true, false
+    </section>
+    <table>
+      <thead>
+        <tr>
+          <th>No.</th>
+          <th>圖像</th>
+          <th>姓名</th>
+          <th>政黨</th>
+          <th>黨團</th>
+        </tr>
+      </thead>
+      <tbody id="main-data">
+        <!-- 把資料塞入這裡 -->
+      </tbody>
+    </table>
+  </main>
+  <script>
+  'use strict';
+
+  $(function(){
+
+    'use strict';
+
+
+    Handlebars.registerHelper('whichParty', function(party){
+      var tr = '';
+      switch(party){
+        case 'KMT':
+          tr = '<tr class="text-white bg-blue">';
+          break;
+
+        case 'DPP':
+          tr = '<tr class="text-white bg-green">';
+          break;
+
+        default:
+          break;
+      }
+
+      return new Handlebars.SafeString(tr);
+    });
+
+    var posNr = 0;
+    Handlebars.registerHelper('position', function(){
+      return ++posNr;
+    });
+
+    $.getJSON('https://raw.githubusercontent.com/g0v/ly-tel/master/web/data/mly-8.json', function(data){
+      
+      // 載入樣板
+      var source = $('#handlebars').html();
+      // 轉成handlebars物件
+      var template = Handlebars.compile(source);
+      // 將資料帶入handlebars
+      var html = template(data);
+
+      $('#main-data').html(html);
+    });
+  });
+  </script>
+  <script id="handlebars" type="text/x-handlebars-template">
+  {{#each this}}
+    {{whichParty party}}
+      <td>{{position}}</td>
+      <td><img src="{{avatar}}" style="border:2px solid #000; border-radius:18px;"></td>
+      <td>{{name}}</td>
+      <td>{{party}}</td>
+      <td>{{caucus}}</td>
+    </tr>
+  {{/each}}
+  </script>
+</body>
+</html>
