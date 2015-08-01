@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>handlebars</title>
+  <style>
+    table {
+      text-align: center;
+      margin: 0 auto;
+      width: 600px;
+    }
+    table, td {
+      border: solid 1px black;
+    }
+    .bg-blue{
+      background: blue;
+    }
+    .bg-green{
+      background: green;
+    }
+    .text-white{
+      color: #fff;
+    }
+  </style>
+  <script src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/3.0.3/handlebars.min.js"></script>
+  <script id="handlebars" type="text/x-handlebars-template">
+  <tr>
+    <td>&nbsp;</td>
+    <td><img src="{{avatar}}"></td>
+    <td>{{name}}</td>
+    <td>{{party}}</td>
+    <td>{{caucas}}</td>
+  </tr>
+  </script>
+</head>
+<body>
+  <main>
+    <h1>Handlebars-start</h1>
+    <table>
+      <thead>
+        <tr>
+          <th>No.</th>
+          <th>圖像</th>
+          <th>姓名</th>
+          <th>政黨</th>
+          <th>黨團</th>
+        </tr>
+      </thead>
+      <tbody id="main-data">
+        <!-- 把資料塞入這裡 -->
+      </tbody>
+    </table>
+  </main>
+  <script>
+  'use strict';
+
+  $(function(){
+
+    'use strict';
+
+    var value = {
+      avatar: 'http://avatars.io/50a65bb26e293122b0000073/36f800ccfad1a8429e795874b135b969',
+      name: '丁守忠',
+      party: 'KMT',
+      caucas: 'KMT'
+    };
+
+    // 載入樣板
+    var source = $('#handlebars').html();
+
+    // 轉成handlebars物件
+    var template = Handlebars.compile(source);
+
+    // 將資料帶入handlebars
+    var html = template(value);
+
+    $('#main-data').html(html);
+  });
+  </script>
+</body>
+</html>
